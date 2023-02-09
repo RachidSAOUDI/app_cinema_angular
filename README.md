@@ -5,6 +5,9 @@
 # Create Components 
 * Run : `ng g c cinema`
 
+# Create Service
+* Run : `ng g s services/cinema`
+
 
 
 # II. Help
