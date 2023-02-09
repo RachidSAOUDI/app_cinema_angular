@@ -1,4 +1,7 @@
 # AppCinemaAngular
+* Run : `npm install --save bootstrap@3`
+* Run : `npm install --save jquery`
+
 
 
 # II. Help
