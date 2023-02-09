@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-cinema',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CinemaComponent implements OnInit {
 
-  constructor() { }
+  public villes : any;
+
+  constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
+    this.http.get("http://localhost:8080/villes").subscribe(
+      data => {
+        this.villes=data;
+    },error => {
+        console.log(error);
+      })
   }
 
 }
