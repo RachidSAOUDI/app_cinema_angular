@@ -2,6 +2,9 @@
 * Run : `npm install --save bootstrap@3`
 * Run : `npm install --save jquery`
 
+# Create Components 
+* Run : `ng g c cinema`
+
 
 
 # II. Help
