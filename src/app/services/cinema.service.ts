@@ -10,7 +10,11 @@ export class CinemaService {
 
   constructor(private http:HttpClient) { }
 
-  public getVilles(){
+  getVilles(){
     return this.http.get(this.host+"/villes");
+  }
+
+  getCinemas(v:any) {
+    return this.http.get(v._links.cinemas.href);
   }
 }
