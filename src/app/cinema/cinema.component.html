@@ -13,18 +13,37 @@
         <div class="panel-heading">Liste des cinemas</div>
         <div class="panel-body">
           <ul *ngIf="cinemas" class="nav nav-pills">
-            <li *ngFor="let c of cinemas._embedded.cinemas" class="clickable">
+            <li [ngClass]="c==currentCinema?'active':''" *ngFor="let c of cinemas._embedded.cinemas" class="clickable">
               <a (click)="onGetSalles(c)">{{c.name}}</a>
             </li>
           </ul>
           <div class="row" *ngIf="salles">
-            <div *ngFor="let s of salles._embedded.salles">
+            <div *ngFor="let salle of salles._embedded.salles">
               <div class="panel panel-default col-md-6">
-                <div class="panel-heading">{{s.name}}</div>
-                <div class="row">
-                </div>
-                <div class="panel-body" *ngIf="s.presentations">
-                  <img src="{{host+'/imageFilm/'+s.presentations._embedded.presentations[0].film.id}}" />
+                <div class="panel-heading">{{salle.name}}</div>
+                <div class="panel-body" *ngIf="salle.presentations">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <img width="130" src="{{host+'/imageFilm/'+salle.presentations._embedded.presentations[0].film.id}}" />
+                    </div>
+                    <div class="col-md-7">
+                      <ul class="list-group">
+                        <li class="list-group-item">Seances</li>
+                        <li [ngClass]="p==currentPresentation?'active':''" (click)="onGetTicketsPlaces(p)" *ngFor="let p of salle.presentations._embedded.presentations" class="list-group-item clickable">
+                          {{p.seance.heureDebut}} => Prix : {{p.prix | number:'0.00'}} MAD
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div *ngIf="currentPresentation">
+                    <div *ngIf="salle.id==currentPresentation.salle.id">
+                      <div class="row" *ngIf="currentPresentation.tickets">
+                        <button [disabled]="t.reserve" [ngClass]="t.reserve==true?'btn btn-danger ticket':'btn btn-success ticket'" *ngFor="let t of currentPresentation.tickets._embedded.tickets">
+                          {{t.place.numero}}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

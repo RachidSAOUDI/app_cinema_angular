@@ -15,22 +15,28 @@ export class CinemaComponent implements OnInit {
   public salles : any;
   public currentVille : any;
   public currentCinema : any;
+  public currentPresentation : any;
   public host = environment.backhost;
 
   constructor(private cinemaService:CinemaService) { }
 
   ngOnInit(): void {
+    this.onGetVilles();
+  }
+
+  onGetVilles(){
     this.cinemaService.getVilles().subscribe(
       data => {
         this.villes=data;
-    },error => {
+      },error => {
         console.log(error);
       })
   }
 
-  onGetCinemas(v: any) {
-    this.currentVille=v;
-    this.cinemaService.getCinemas(v)
+  onGetCinemas(ville: any) {
+    this.currentVille=ville;
+    this.salles=undefined;
+    this.cinemaService.getCinemas(ville)
       .subscribe(data=>{
       this.cinemas=data;
     },error =>{
@@ -54,5 +60,14 @@ export class CinemaComponent implements OnInit {
       },error =>{
         console.log(error);
       })
+  }
+
+  onGetTicketsPlaces(presentation: any) {
+    this.currentPresentation=presentation;
+    this.cinemaService.getTicketsPlaces(presentation).subscribe(data=>{
+      this.currentPresentation.tickets=data;
+    }, err => {
+      console.log(err);
+    })
   }
 }
