@@ -36,12 +36,26 @@
                     </div>
                   </div>
                   <div *ngIf="currentPresentation">
-                    <div *ngIf="salle.id==currentPresentation.salle.id">
-                      <div class="row" *ngIf="currentPresentation.tickets">
-                        <button (click)="onSelectTicket(t)" [disabled]="t.reserve" [ngClass]="t.reserve==true?'btn btn-danger ticket':'btn btn-success ticket'" *ngFor="let t of currentPresentation.tickets._embedded.tickets">
-                          {{t.place.numero}}
-                        </button>
+                      <div *ngIf="salle.id==currentPresentation.salle.id">
+
+                        <div class="row" *ngIf="currentPresentation.tickets">
+                          <button class="{{getTicketClass(t)}}" (click)="onSelectTicket(t)" [disabled]="t.reserve" *ngFor="let t of currentPresentation.tickets._embedded.tickets">
+                            {{t.place.numero}}
+                          </button>
                       </div>
+                        <div *ngIf="selectedTickets.length>0">
+                          <form #f="ngForm" (ngSubmit)="onPayTickets(f.value)">
+                            <div class="form-group">
+                              <label class="control-label">Nom client</label>
+                              <input class="form-control" type="text" name="nomCLient" ngModel>
+                            </div>
+                            <div class="form-group">
+                              <label class="control-label">Code Payement</label>
+                              <input class="form-control" type="text" name="codePayement" ngModel>
+                            </div>
+                            <button type="submit" class="btn btn-success">Payer</button>
+                          </form>
+                        </div>
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {Component, OnInit} from '@angular/core';
 import {CinemaService} from "../services/cinema.service";
 import {environment} from "../../environments/environment";
 
@@ -17,7 +16,7 @@ export class CinemaComponent implements OnInit {
   public currentCinema : any;
   public currentPresentation : any;
   public host = environment.backhost;
-  private selectedTickets!: any[];
+  public selectedTickets: any[] = [];
 
   constructor(private cinemaService:CinemaService) { }
 
@@ -74,7 +73,39 @@ export class CinemaComponent implements OnInit {
   }
 
   onSelectTicket(t: any) {
-    t.selected=true;
-    this.selectedTickets.push(t);
+    if(!t.selected){
+      t.selected=true;
+      this.selectedTickets.push(t);
+    } else {
+      t.selected=false;
+      this.selectedTickets.splice(this.selectedTickets.indexOf(t),1);
+    }
+    console.log(this.selectedTickets);
+  }
+
+  getTicketClass(t: any) {
+    let str="btn ticket ";
+    if (t.reserve==true){
+      str+="btn-danger";
+    } else if (t.selected) {
+      str+="btn-warning";
+    } else {
+      str+="btn-success";
+    }
+    return str;
+  }
+
+  onPayTickets(dataForm: any) {
+    let tickets:any=[];
+    this.selectedTickets.forEach(t=>{
+      tickets.push(t.id);
+    });
+    dataForm.tickets=tickets;
+    this.cinemaService.payerTickets(dataForm).subscribe(data=>{
+      alert("tickets reserves avec succes!")
+      this.onGetTicketsPlaces(this.currentPresentation);
+    },err=>{
+      console.log(err);
+    })
   }
 }
