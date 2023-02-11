@@ -17,6 +17,7 @@ export class CinemaComponent implements OnInit {
   public currentCinema : any;
   public currentPresentation : any;
   public host = environment.backhost;
+  private selectedTickets!: any[];
 
   constructor(private cinemaService:CinemaService) { }
 
@@ -66,8 +67,14 @@ export class CinemaComponent implements OnInit {
     this.currentPresentation=presentation;
     this.cinemaService.getTicketsPlaces(presentation).subscribe(data=>{
       this.currentPresentation.tickets=data;
+      this.selectedTickets=[];
     }, err => {
       console.log(err);
     })
+  }
+
+  onSelectTicket(t: any) {
+    t.selected=true;
+    this.selectedTickets.push(t);
   }
 }

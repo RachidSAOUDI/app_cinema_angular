@@ -38,7 +38,7 @@
                   <div *ngIf="currentPresentation">
                     <div *ngIf="salle.id==currentPresentation.salle.id">
                       <div class="row" *ngIf="currentPresentation.tickets">
-                        <button [disabled]="t.reserve" [ngClass]="t.reserve==true?'btn btn-danger ticket':'btn btn-success ticket'" *ngFor="let t of currentPresentation.tickets._embedded.tickets">
+                        <button (click)="onSelectTicket(t)" [disabled]="t.reserve" [ngClass]="t.reserve==true?'btn btn-danger ticket':'btn btn-success ticket'" *ngFor="let t of currentPresentation.tickets._embedded.tickets">
                           {{t.place.numero}}
                         </button>
                       </div>
